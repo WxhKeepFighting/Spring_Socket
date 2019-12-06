@@ -22,13 +22,12 @@ public class TCPServer {
     public void mainService(){//主服务即循环监听各种连接请求
         while (true) {//多线程，循环创建多个线程
             try {
-                Socket s = null;
+                Socket s;
                 s = ss.accept();//获得客户端的套接字
                 /*阻塞进程，只有serverSocket调用了accept方法才会从请求队列中取出连接请求，
                  队列中释放空位，以容纳新的连接请求，否则当连接数达到ServeSocket最大连接数时将报错*/
                 System.out.println("客户端接入"+
                 s.getInetAddress().getLocalHost());
-                System.out.println("开始执行具体服务");
                 newSpecialService.setSocket(s);
                 new Thread(newSpecialService).start();//开辟一条新的线程执行run方法操作
 //                System.out.println("方法执行结束");

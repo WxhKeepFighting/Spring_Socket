@@ -4,6 +4,7 @@ import com.wxh.NewServer.DAO.ServiceRepository;
 import com.wxh.NewServer.DAO.User_SystemRepository;
 import com.wxh.NewServer.Entity.Service;
 import com.wxh.NewServer.Entity.User_system;
+import com.wxh.NewServer.Service.FWService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +21,12 @@ public class NewSpecialService implements Runnable {
     private User_SystemRepository u_repository;
     @Autowired
     private ServiceRepository s_repository;
+    @Autowired
+    private FWService fwService;
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+
 
     public NewSpecialService() {
     }
@@ -44,37 +48,29 @@ public class NewSpecialService implements Runnable {
         String message[] = content.split(",");
         String id = message[0];
         System.out.println("执行的操作为" + id);
-        if (id.equals("登录验证")) {
-            String s_id = message[1];
-            String s_password = message[2];
-            User_system user_system = new User_system();
-            user_system.setS_id(s_id);
-            user_system.setS_password(s_password);
-            loginVerification(user_system);
-        }
-        if (id.equals("开始服务")) {
-            String mission_id = message[1];
-            String service_status = message[2];
-            String service_stime = message[3];
-            String service_spic = message[4];
-            Service service = new Service();
-            service.setMission_id(mission_id);
-            service.setService_status(service_status);
-            service.setService_stime(service_stime);
-            service.setService_spic(service_spic);
-            startService(service);
-        }
-        if (id.equals("结束服务")) {
-            String mission_id = message[1];
-            String service_status = message[2];
-            String service_etime = message[3];
-            String service_epic = message[4];
-            Service service = new Service();
-            service.setMission_id(mission_id);
-            service.setService_status(service_status);
-            service.setService_etime(service_etime);
-            service.setService_epic(service_epic);
-            endService(service);
+        switch (id) {
+            case "登录验证":
+                User_system user_system = new User_system();
+                user_system.setS_id(message[1]);
+                user_system.setS_password(message[2]);
+                loginVerification(user_system);
+                break;
+            case "开始服务":
+                Service service = new Service();
+                service.setMission_id(message[1]);
+                service.setService_status(message[2]);
+                service.setService_stime(message[3]);
+                service.setService_spic(message[4]);
+                startService(service);
+                break;
+            case "结束服务":
+                service = new Service();
+                service.setMission_id(message[1]);
+                service.setService_status(message[2]);
+                service.setService_etime(message[3]);
+                service.setService_epic(message[4]);
+                endService(service);
+                break;
         }
     }
 
@@ -112,10 +108,14 @@ public class NewSpecialService implements Runnable {
                 dataOutputStream.writeUTF("发送的信息为空，操作失败");
                 System.out.println("保存对象为空，保存失败");
             } else {
-                s_repository.save(service);
-                dataOutputStream.writeUTF("任务号" +service.getMission_id()+ "保存成功");
-                close();
-                System.out.println("开始服务操作成功");
+                Service save = s_repository.save(service);
+                if (!save.getMission_id().equals("")) {
+                    dataOutputStream.writeUTF("任务号" + service.getMission_id() + "保存成功");
+                    close();
+                    System.out.println("开始服务操作成功");
+                } else {
+                    System.out.println("信息插入失败");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,17 +123,20 @@ public class NewSpecialService implements Runnable {
     }
 
     //结束服务
-    private void endService(Service service){
+    private void endService(Service service) {
         try {
-            if (service.getMission_id().equals("0")) {
+            if (service.getMission_id().equals("")) {
                 dataOutputStream.writeUTF("发送的信息为空，操作失败");
                 System.out.println("保存对象为空，保存失败");
             } else {
-                int n = s_repository.updateBymission_id(service.getService_status(), service.getService_etime(), service.getService_epic(), service.getMission_id());
-                System.out.println(n);
-                dataOutputStream.writeUTF("任务号" + service.getMission_id() + "保存成功");
-                close();
-                System.out.println("结束服务操作成功");
+                int n = fwService.update(service);
+                if (n > 0) {
+                    dataOutputStream.writeUTF("任务号" + service.getMission_id() + "保存成功");
+                    close();
+                    System.out.println("结束服务操作成功");
+                } else {
+                    System.out.println("结束服务失败");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

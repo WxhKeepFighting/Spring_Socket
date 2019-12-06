@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
 
 public interface ServiceRepository extends JpaRepository<Service, String> {
-    @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update Service s set s.service_status=:status,s.service_etime=:etime,s.service_epic=:epic where s.mission_id=:id")
 //    @Query(value = "update Service s set s.service_status=?1,s.service_etime=?2,s.service_epic=?3 where s.mission_id=?4")
