@@ -27,7 +27,6 @@ public class NewSpecialService implements Runnable {
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
 
-
     public NewSpecialService() {
     }
 
@@ -51,39 +50,39 @@ public class NewSpecialService implements Runnable {
         switch (id) {
             case "登录验证":
                 User_system user_system = new User_system();
-                user_system.setS_id(message[1]);
-                user_system.setS_password(message[2]);
+                user_system.setUsername(message[1]);
+                user_system.setPassword(message[2]);
                 loginVerification(user_system);
                 break;
             case "开始服务":
                 Service service = new Service();
-                service.setMission_id(message[1]);
-                service.setService_status(message[2]);
-                service.setService_stime(message[3]);
-                service.setService_spic(message[4]);
+                service.setId(message[1]);
+                service.setStatus(message[2]);
+                service.setStime(message[3]);
+                service.setSpic(message[4]);
                 startService(service);
                 break;
             case "结束服务":
                 service = new Service();
-                service.setMission_id(message[1]);
-                service.setService_status(message[2]);
-                service.setService_etime(message[3]);
-                service.setService_epic(message[4]);
+                service.setId(message[1]);
+                service.setStatus(message[2]);
+                service.setEtime(message[3]);
+                service.setEpic(message[4]);
                 endService(service);
                 break;
         }
     }
 
     private void loginVerification(User_system user_system) {
-        String s_id = user_system.getS_id();
-        String s_password = user_system.getS_password();
+        String s_id = user_system.getUsername();
+        String s_password = user_system.getPassword();
         if (u_repository == null) {
             System.out.println("空空空");
         } else {
             Optional<User_system> byId = u_repository.findById(s_id);
             boolean flag = byId.isPresent();
             if (flag) {
-                s_password.equals(byId.get().getS_password());
+                s_password.equals(byId.get().getPassword());
                 try {
                     dataOutputStream.writeUTF("success");
                     close();
@@ -104,13 +103,13 @@ public class NewSpecialService implements Runnable {
     //开始服务
     private void startService(Service service) {
         try {
-            if (service.getMission_id().equals("0")) {
+            if (service.getId().equals("0")) {
                 dataOutputStream.writeUTF("发送的信息为空，操作失败");
                 System.out.println("保存对象为空，保存失败");
             } else {
                 Service save = s_repository.save(service);
-                if (!save.getMission_id().equals("")) {
-                    dataOutputStream.writeUTF("任务号" + service.getMission_id() + "保存成功");
+                if (!save.getId().equals("")) {
+                    dataOutputStream.writeUTF("任务号" + service.getId() + "保存成功");
                     close();
                     System.out.println("开始服务操作成功");
                 } else {
@@ -125,13 +124,14 @@ public class NewSpecialService implements Runnable {
     //结束服务
     private void endService(Service service) {
         try {
-            if (service.getMission_id().equals("")) {
+            if (service.getId().equals("")) {
                 dataOutputStream.writeUTF("发送的信息为空，操作失败");
                 System.out.println("保存对象为空，保存失败");
             } else {
-                int n = fwService.update(service);
+                int n = 1;
+                fwService.endService(service);
                 if (n > 0) {
-                    dataOutputStream.writeUTF("任务号" + service.getMission_id() + "保存成功");
+                    dataOutputStream.writeUTF("任务号" + service.getId() + "保存成功");
                     close();
                     System.out.println("结束服务操作成功");
                 } else {

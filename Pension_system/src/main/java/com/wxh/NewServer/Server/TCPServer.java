@@ -14,9 +14,11 @@ public class TCPServer {
     private ServerSocket ss;
     private int port = 8888;
 
+
     public TCPServer() throws IOException {
         ss = new ServerSocket(port);
         System.out.println("服务器启动成功，等待客户端接入");
+        System.out.println("111111111111111");
     }
 
     public void mainService(){//主服务即循环监听各种连接请求

@@ -1,7 +1,6 @@
 package com.wxh.NewServer.Service;
 
 import com.wxh.NewServer.DAO.ServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -9,10 +8,19 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class FWService {
-    @Autowired
+
     private ServiceRepository repository;
-    public FWService(){}
-    public int update(com.wxh.NewServer.Entity.Service  service){
-        return repository.updateBymission_id(service.getService_status(),service.getService_etime(),service.getService_epic(),service.getMission_id());
+
+    public FWService(ServiceRepository repository){
+        this.repository = repository;
     }
+
+    public void endService(com.wxh.NewServer.Entity.Service  service){
+        repository.updateBymission_id(service.getStatus(),service.getEtime(),service.getEpic(),service.getId());
+    }
+
+    public void startService(com.wxh.NewServer.Entity.Service service){
+        repository.save(service);
+    }
+
 }
