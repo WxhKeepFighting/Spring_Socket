@@ -19,11 +19,11 @@ public class User_system {
     @Id
     @NotBlank
     @Column(name = "s_id", nullable = false)
-    private String username;
+    private String username;//系统用户id
     @Column(name = "s_password",nullable = false)
-    private String password;
+    private String password;//系统用户密码
     @Column(name = "role_id", nullable = false)
-    private String role;
+    private String role;//系统用户角色
     @NotBlank
     private String active;
 }
