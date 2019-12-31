@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "User_system")
-public class User_system {
+public class User_system{
     @Id
     @NotBlank
     @Column(name = "s_id", nullable = false)

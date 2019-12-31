@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @Table(name = "service")
-public class Service {
+public class Service{
     @Id
     @NotBlank
     @Column(name = "mission_id", nullable = false)

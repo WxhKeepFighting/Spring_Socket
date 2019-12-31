@@ -17,14 +17,14 @@ public class FWService {
         this.repository = repository;
     }
 
-    public void endService(com.wxh.NewServer.Entity.Service  service) throws CustomException {
+    public void update(com.wxh.NewServer.Entity.Service  service) throws CustomException {
         int i = repository.updateBymission_id(service.getStatus(), service.getEtime(), service.getEpic(), service.getId());
-        if (i < 0){
+        if (i <= 0){
             throw new CustomException(CustomExceptionType.USER_INPUT_ERROR,"结束签到失败");
         }
     }
 
-    public void startService(com.wxh.NewServer.Entity.Service service) throws CustomException {
+    public void save(com.wxh.NewServer.Entity.Service service) throws CustomException {
         com.wxh.NewServer.Entity.Service save = repository.save(service);
         if (save == null){
             throw new CustomException(CustomExceptionType.USER_INPUT_ERROR, "开始签到失败");
