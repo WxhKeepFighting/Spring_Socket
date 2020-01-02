@@ -7,9 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface MissionRepository extends JpaRepository<Mission, Integer> {
-    @Modifying(clearAutomatically = true)
-    @Query("update Mission m set m.status =:status where m.mission_id =:mission_id")
-    int updateBymission_id(@Param("status") String status, @Param("mission_id")String mission_id);
-    Mission findByMission_idAndStatusEquals(String Mission_id, String status);
-    Mission findByStatus(String status);
+    @Modifying(clearAutomatically = true)//进行更新操作才使用的注解
+    @Query("update Mission m set m.status =:status where m.mid =:mission_id")
+    int updateByMid(@Param("status") String status, @Param("mission_id")String mission_id);
+    Mission findByStatusAndVid(String status, String Volunteer_id);
 }

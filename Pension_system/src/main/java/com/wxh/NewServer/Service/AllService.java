@@ -30,13 +30,13 @@ public class AllService {
         String mission_id = jsonObject.getString("mission_id");
         String status = jsonObject.getString("status");
 
-        mission.setMission_id(mission_id);
+        mission.setMid(mission_id);
         mission.setStatus(status);
-        mission.setApplicant_id(applicant_id);
-        mission.setVolunteer_id(volunteer_id);
-        mission.setEvent_id(event_id);
+        mission.setAid(applicant_id);
+        mission.setVid(volunteer_id);
+        mission.setEid(event_id);
 
-        service.setId(mission_id);
+        service.setMid(mission_id);
         service.setSpic(service_spic);
         service.setStime(service_stime);
         service.setStatus(status);
@@ -57,13 +57,13 @@ public class AllService {
         String mission_id = jsonObject.getString("mission_id");
         String status = jsonObject.getString("status");
 
-        mission.setMission_id(mission_id);
+        mission.setMid(mission_id);
         mission.setStatus(status);
-        mission.setApplicant_id(applicant_id);
-        mission.setVolunteer_id(volunteer_id);
-        mission.setEvent_id(event_id);
+        mission.setAid(applicant_id);
+        mission.setVid(volunteer_id);
+        mission.setEid(event_id);
 
-        service.setId(mission_id);
+        service.setMid(mission_id);
         service.setEpic(service_epic);
         service.setEtime(service_etime);
         service.setStatus(status);

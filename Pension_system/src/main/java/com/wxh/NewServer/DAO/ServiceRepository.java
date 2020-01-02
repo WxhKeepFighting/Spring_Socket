@@ -13,5 +13,6 @@ public interface ServiceRepository extends JpaRepository<Service, String> {
     @Query("update Service s set s.status=:status,s.etime=:etime,s.epic=:epic where s.id=:id")
 //    @Query(value = "update Service s set s.service_status=?1,s.service_etime=?2,s.service_epic=?3 where s.mission_id=?4")
 //    int updateBymission_id(String status,String etime,String epic,String id);
-    int updateBymission_id(@Param(value = "status") String status,@Param(value = "etime") String etime,@Param(value = "epic") String epic,@Param(value = "id") String id);
+    int updateByMid(@Param(value = "status") String status,@Param(value = "etime") String etime,@Param(value = "epic") String epic,@Param(value = "id") String id);
+    Service findByMid(String mid);
 }

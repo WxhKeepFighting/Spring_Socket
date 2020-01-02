@@ -24,7 +24,7 @@ public class MissionService {
     }
 
     public void update(Mission mission) throws CustomException {
-        int i = repository.updateBymission_id(mission.getStatus(), mission.getMission_id());
+        int i = repository.updateByMid(mission.getStatus(), mission.getMid());
         if (i<=0){
             throw new CustomException(CustomExceptionType.USER_INPUT_ERROR, "结束签到失败");
         }

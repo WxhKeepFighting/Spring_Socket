@@ -18,7 +18,7 @@ public class FWService {
     }
 
     public void update(com.wxh.NewServer.Entity.Service  service) throws CustomException {
-        int i = repository.updateBymission_id(service.getStatus(), service.getEtime(), service.getEpic(), service.getId());
+        int i = repository.updateByMid(service.getStatus(), service.getEtime(), service.getEpic(), service.getMid());
         if (i <= 0){
             throw new CustomException(CustomExceptionType.USER_INPUT_ERROR,"结束签到失败");
         }

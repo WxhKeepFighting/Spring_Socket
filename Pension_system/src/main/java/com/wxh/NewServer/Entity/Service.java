@@ -18,7 +18,7 @@ public class Service{
     @Id
     @NotBlank
     @Column(name = "mission_id", nullable = false)
-    private String id;//主键任务id号
+    private String mid;//主键任务id号
     @Column(name = "service_status", nullable = false)
     private String status;//服务状态
     @Column(name = "service_stime")
