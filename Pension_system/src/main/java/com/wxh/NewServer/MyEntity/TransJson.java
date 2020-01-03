@@ -1,4 +1,4 @@
-package com.wxh.NewServer.Entity;
+package com.wxh.NewServer.MyEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

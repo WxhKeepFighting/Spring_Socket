@@ -1,22 +1,25 @@
 package com.wxh.NewServer.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wxh.NewServer.DAO.EventRepository;
 import com.wxh.NewServer.Entity.Mission;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 @Service
 @Transactional
 public class AllService {
 
+    @Resource
     private FWService fwService;
+    @Resource
     private MissionService missionService;
+    @Resource
+    private EventRepository eventRepository;
 
-    public AllService(FWService fwService, MissionService missionService){
-        this.fwService = fwService;
-        this.missionService = missionService;
-    }
+    //开始服务
     public void startService(JSONObject jsonObject){
 
         Mission mission = new Mission();
@@ -45,6 +48,7 @@ public class AllService {
         fwService.save(service);
     }
 
+    //结束服务
     public void endService(JSONObject jsonObject){
         Mission mission = new Mission();
         com.wxh.NewServer.Entity.Service service = new com.wxh.NewServer.Entity.Service();
@@ -71,4 +75,10 @@ public class AllService {
         fwService.update(service);
         missionService.update(mission);
     }
+
+    //统计志愿者信息
+    public void Statistics(){
+
+    }
+
 }

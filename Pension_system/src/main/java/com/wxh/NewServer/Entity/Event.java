@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @NoArgsConstructor
 @Data
+@Table(name = "event")
 public class Event{
     @Id
     @Column(name = "event_id",nullable = false)

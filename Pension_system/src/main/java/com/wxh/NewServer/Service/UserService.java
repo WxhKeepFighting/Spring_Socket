@@ -2,35 +2,31 @@ package com.wxh.NewServer.Service;
 
 import com.wxh.NewServer.DAO.MissionRepository;
 import com.wxh.NewServer.DAO.ServiceRepository;
-import com.wxh.NewServer.DAO.User_SystemRepository;
+import com.wxh.NewServer.DAO.UserSystemRepository;
 import com.wxh.NewServer.Entity.Mission;
-import com.wxh.NewServer.Entity.TransJson;
-import com.wxh.NewServer.Entity.User_system;
+import com.wxh.NewServer.Entity.UserSystem;
+import com.wxh.NewServer.MyEntity.TransJson;
 import com.wxh.NewServer.Exception.CustomException;
 import com.wxh.NewServer.Exception.CustomExceptionType;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 @Service
 @Transactional
 public class UserService {
 
-    private User_SystemRepository repository;
+    @Resource
+    private UserSystemRepository repository;
+    @Resource
     private MissionRepository missionRepository;
+    @Resource
     private ServiceRepository serviceRepository;
 
-    public UserService(User_SystemRepository repository, MissionRepository missionRepository, ServiceRepository serviceRepository){
-
-        this.repository = repository;
-        this.missionRepository = missionRepository;
-        this.serviceRepository = serviceRepository;
-
-    }
-
-    public TransJson loginVerification(User_system user_system) throws CustomException {
+    public TransJson loginVerification(UserSystem user_system) throws CustomException {
         //用户查询
-        User_system user = repository.findByUsernameAndPassword(user_system.getUsername(), user_system.getPassword());
+        UserSystem user = repository.findByUsernameAndPassword(user_system.getUsername(), user_system.getPassword());
         System.out.println(user);
         if (user == null){
             //如果没查询到则抛出异常
