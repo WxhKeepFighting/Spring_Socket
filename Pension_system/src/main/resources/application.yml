@@ -6,13 +6,14 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT # serverTimezone=GMT这是设置时区
     username: root
     password: 123456
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#    database: mysql
+
+
 logging:
   level:
     com.zimug.bootlaunch: debug
 mypro:
   pathname: "F:\\upload\\"
+mybatis:
+  type-aliases-package: com.wxh.model
+  config-location: classpath:SqlMapConfig.xml
+  mapper-locations: classpath:mapper/*.xml
